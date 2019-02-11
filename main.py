@@ -19,11 +19,6 @@ class Blog(db.Model):
         self.body = body
 
 
-@app.route('/blog_listing', methods=['POST', 'GET'])
-def blog_listing():
-    return render_template('blog_listing.html')
-
-
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
     if request.method == 'POST':
@@ -39,7 +34,7 @@ def newpost():
             new_blog = Blog(title, body)
             db.session.add(new_blog)
             db.session.commit()
-            return redirect('/blog')
+            return redirect('/blog?id={}'.format(new_blog.id))
         else:
             flash("A blog with the same title exists. Please choose a different title.")
             return redirect('/newpost')
@@ -50,8 +45,13 @@ def newpost():
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/blog')
 def blog():
-    # return "<h1>TEST!</h1>"
-    return render_template('blog.html', title="Blog")
+    blog_id = request.args.get('id')
+    blog = Blog.query.filter_by(id=blog_id).first()
+    if not blog_id:
+        blogs = Blog.query.all()
+        return render_template('blog.html', title="Blog", blogs=blogs, blog_title='Build a Blog')
+    else:
+        return render_template('blog.html', title="Blog", blog_title=blog.title, body=blog.body)
 
 
 if __name__ == "__main__":
