@@ -5,11 +5,13 @@
 <h1>{{ blog_title }}</h1>
 
 {% for blog in blogs|reverse %}
+<div class="blog">
   <form>
     <input type="hidden" name="blog_id" value="{{ blog.id }}">
   </form>
   <h2><a href="/blog?id={{ blog.id }}">{{ blog.title }}</a></h2>
   <p>{{ blog.body }}</p>
+</div>
 {% endfor %}
 
 
