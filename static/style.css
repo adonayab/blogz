@@ -1,3 +1,36 @@
+.main {
+  
+  padding: 10px;
+  margin: 0 auto;
+  width: 540px;
+  font: 20px "Courier New", monospace;
+  font-weight: bold;
+  border-radius: 10px;
+  color: rgb(255, 253, 251)
+}
+.nav {
+  padding: 0.2in;
+  color: antiquewhite;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: url(/static/big-black.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 120vh;
+  position: relative;
+}
+
+.add_blog {
+  font-family: sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+}
+
 h1 {
   text-align: center;
   font-family: Georgia;
@@ -6,4 +39,43 @@ h1 {
 
 .error {
   color: red;
+}
+
+a {
+  color: cadetblue;
+  font-family: sans-serif;
+}
+
+textarea {
+  margin: 10px 0;
+  width: 540px;
+  height: 130px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #e9ebf0be;
+  resize: none;
+  font-size: 16px;
+}
+
+input[type=text] {
+  margin: 10px 0;
+  padding: 5px;
+  background-color: #f1f1f171;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  color: antiquewhite;
+
+}
+
+input[type=submit] {
+  background-color: rgb(83, 105, 84);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 20px;
 }

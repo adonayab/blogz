@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <title>{{title}}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
-</head>
+  <head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+  </head>
 
-<body>
-  <div>
-    <a href="/blog">Main Blog Page</a> |
-    <a href="/newpost">Add a Blog Entry</a>
-  </div>
+  <body>
+    <div class="nav">
+      <a href="/blog">Main Blog Page</a>
+      |
+      <a href="/newpost">Add a Blog Entry</a>
+    </div>
+    <div class="main">
+      {% with messages = get_flashed_messages() %}
+      <ul>
+        {% for message in messages %}
+          <li class="error">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endwith %}
 
-  {% with messages = get_flashed_messages() %}
-  <ul>
-    {% for message in messages %}
-    <li class="error">{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endwith %}
+      {% block content%}{% endblock %}
+    </div>
 
-  {% block content%}
-  {% endblock %}
-
-</body>
+  </body>
 
 </html>
