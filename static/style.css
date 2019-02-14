@@ -42,6 +42,11 @@ body {
   font-size: 16px;
 }
 
+h2 {
+  font-family: Georgia;
+  color: gray;
+}
+
 h1 {
   text-align: center;
   font-family: Georgia;
@@ -70,7 +75,7 @@ textarea {
   font-size: 16px;
 }
 
-input[type=text] {
+input[type=text], input[type=password], input[type=email] {
   width: 530px;
   margin: 10px 0;
   padding: 5px;
