@@ -7,7 +7,7 @@ import re
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'signup']
+    allowed_routes = ['login', 'signup', 'index']
     if request.endpoint not in allowed_routes and 'email' not in session and '/static/' not in request.path:
         return redirect('/login')
 
@@ -103,9 +103,12 @@ def newpost():
 
     return render_template('newpost.html')
 
-
 @app.route('/', methods=['POST', 'GET'])
-@app.route('/blog')
+def index():
+  blogs = Blog.query.all()
+  return render_template('index.html', blogs=blogs)
+
+@app.route('/blog', methods=['POST', 'GET'])
 def blog():
     blog_id = request.args.get('id')
     blog = Blog.query.filter_by(id=blog_id).first()

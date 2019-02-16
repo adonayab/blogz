@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Index</h1>
+<p><a href="/login">Login</a> or <a href="/signup">Join</a> Blogz</p>
+<table>
+  <tr>
+    <td>Title</td>
+    <td>Author</td>
+    <td><hr></td>
+  </tr>
+  <tr>
+    <td><hr></td>
+    <td><hr></td>
+  </tr>
+  {% for blog in blogs %}
+  <tr>
+    <td>{{ blog.title }}</a></td>
+    <td>{{ blog.owner.email }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+
+{% endblock %}
