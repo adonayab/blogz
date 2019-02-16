@@ -1,14 +1,22 @@
 .main {  
-  padding: 10px;
+  padding: 2in;
   margin: 0 auto;
   width: 540px;
   font: 18px "Courier New", monospace;
   font-weight: bold;
   border-radius: 10px;
-  color: rgb(255, 253, 251)
+  color: antiquewhite;
 }
+
 .nav {
-  padding: 0.2in;
+  padding: 0.7in;
+  color:  rgb(149, 199, 201);
+  float: left;
+}
+
+.nav1 {
+  padding: 0.3in;
+  float: right;  
 }
 
 .blog {
@@ -53,6 +61,11 @@ h1 {
   color: gray;
 }
 
+h6, h5 {
+  font-family: Georgia;
+  color: rgb(128, 209, 182);
+}
+
 .error {
   color: red;
 }
@@ -60,6 +73,10 @@ h1 {
 a {
   color: rgb(149, 199, 201);
   font-family: sans-serif;
+}
+
+span {
+  color: antiquewhite;
 }
 
 textarea {
@@ -75,7 +92,7 @@ textarea {
   font-size: 16px;
 }
 
-input[type=text], input[type=password], input[type=email] {
+input[type=text] {
   width: 530px;
   margin: 10px 0;
   padding: 5px;
@@ -84,6 +101,16 @@ input[type=text], input[type=password], input[type=email] {
   border-radius: 3px;
   color: antiquewhite;
 
+}
+
+input[type=password], input[type=email] {
+  width: 200px;
+  margin: 10px 0;
+  padding: 5px;
+  background-color: #f1f1f171;
+  border: none;
+  border-radius: 3px;
+  color: rgb(255, 255, 255);
 }
 
 input[type=submit] {

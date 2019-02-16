@@ -2,11 +2,32 @@
 {% block content %}
 
 <h2>Signup</h2>
+<h5>Already a user | <a href="/login">Login</a></h5>
+<p class="error p">{{ empty_form_error }}</p>
 <form action="/signup" method="post">
-  <p><label>Email <input type="email" name="email"/></label></p>
-  <p><label>New Password <input type="password" name="password"/></label></p>
-  <p><label>Verify Password <input type="password" name="verify"/></label></p>
-  <p><input type="submit" value="Signup"/></p>
+  <table>
+    <tr>
+      <td><label for="email">Email </label></td>
+      <td>
+        <input name="email" type="email" id="email">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="password">Password </label></td>
+      <td>
+        <input name="password" type="password" id="password">
+      </td>
+    </tr>
+    <tr>
+      <td><label for="verify">Verify Password </label></td>
+      <td>
+        <input name="verify" type="password" id="verify">
+      </td>
+    </tr>
+  </table>
+  <input type="submit" value="Signup">
+
+
 </form>
 
 {% endblock %}

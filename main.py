@@ -1,35 +1,21 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogz@localhost:3306/blogz'
-app.config['SQLALCHEMY_ECHO'] = True
-db = SQLAlchemy(app)
-app.secret_key = 'uahfkahdlfhuhkn8392uh'
+from models import User, Blog
+from app import app, db
+import re
 
 
-class Blog(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), unique=True)
-    body = db.Column(db.String(120))
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __init__(self, title, body, owner):
-        self.title = title
-        self.body = body
-        self.owner = owner
+@app.before_request
+def require_login():
+    allowed_routes = ['login', 'signup']
+    if request.endpoint not in allowed_routes and 'email' not in session and '/static/' not in request.path:
+        return redirect('/login')
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True)
-    password = db.Column(db.String(120))
-    blogs = db.relationship('Blog', backref='owner')
-
-    def __init__(self, email, password):
-        self.email = email
-        self.password = password
+@app.route("/logout", methods=['POST'])
+def logout():
+    del session['email']
+    return redirect('/login')
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -55,39 +41,51 @@ def login():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
 
-    # TODO : implement user signup
-
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         verify = request.form['verify']
-        
-        if password != verify:
-            flash("Passwords do not match")
-            return redirect('/signup')
-
+        email = request.form['email']
         existing_user = User.query.filter_by(email=email).first()
-        if not existing_user:
-            user = User(email=email, password=password)
-            db.session.add(user)
-            db.session.commit()
-            session['user'] = user.email
-            return redirect("/")
-        else:
-            flash('Email adress "{}" already an account'.format(existing_user.email))
+
+        if email == '' and password == '' and verify == '':
+            flash('Email and Password fields can not be empty')
             return render_template('signup.html')
-    
+
+        if existing_user:
+            flash('{} Already an account'.format(email))
+            return render_template('signup.html')
+        if email == '':
+            flash('Email field required')
+            return render_template('signup.html')
+        if not existing_user and password == '':
+            flash('Password field required')
+            return render_template('signup.html')
+        if not existing_user and (len(password) < 3 or len(password) > 20) and password != verify:
+            flash('Invalid Password')
+            flash('Passwords do not match')
+            return render_template('signup.html')
+        if not existing_user and password != verify:
+            flash('Passwords do not match')
+            return render_template('signup.html')
+
+        user = User(email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        session['email'] = email
+
+        return redirect('/')
+
     return render_template('signup.html')
 
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
 
-    owner = User.query.filter_by(email=session['email']).first()
-
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
+        owner = User.query.filter_by(email=session['email']).first()
 
         if title == '' or body == '':
             flash("The title or body can not be empty.")
@@ -95,7 +93,7 @@ def newpost():
 
         titles = Blog.query.filter_by(title=title).first()
         if not titles:
-            new_blog = Blog(title=title, body=body, owner=owner)
+            new_blog = Blog(title, body, owner)
             db.session.add(new_blog)
             db.session.commit()
             return redirect('/blog?id={}'.format(new_blog.id))
