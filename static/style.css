@@ -66,6 +66,11 @@ h6, h5 {
   color: rgb(128, 209, 182);
 }
 
+.pubs {
+  font-family: sans-serif;
+  color: rgb(167, 172, 149);
+}
+
 .error {
   color: red;
 }
@@ -122,4 +127,11 @@ input[type=submit] {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 20px;
+}
+
+.table {
+  table-layout: auto;
+}
+.space {
+  padding-left: 0.3in;
 }

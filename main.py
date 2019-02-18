@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from models import User, Blog
 from app import app, db
 import re
+from hashutils import check_pw_hash
+from datetime import datetime
 
 
 @app.before_request
@@ -24,11 +26,11 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
-        if user and user.password == password:
+        if user and check_pw_hash(password, user.pw_hash):
             session['email'] = email
             flash("Logged in")
-            return redirect('/')
-        elif user and user.password != password:
+            return redirect('/blog')
+        elif user and user.pw_hash != password:
             flash('Incorrect password')
         elif email == '' and password == '':
             flash('Email and Password can not be empty')
@@ -103,20 +105,27 @@ def newpost():
 
     return render_template('newpost.html')
 
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
-  blogs = Blog.query.all()
-  return render_template('index.html', blogs=blogs)
+    blogs = Blog.query.all()
+    return render_template('index.html', blogs=blogs)
+
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog():
+    blogs = Blog.query.all()    
     blog_id = request.args.get('id')
+    user_id = request.args.get('user')
     blog = Blog.query.filter_by(id=blog_id).first()
-    if not blog_id:
-        blogs = Blog.query.all()
-        return render_template('blog.html', title="Blog", blogs=blogs, blog_title='Build a Blog')
-    else:
+    user_blogs = Blog.query.filter_by(owner_id=user_id).all()
+    user_name = Blog.query.filter_by(owner_id=user_id).first()
+    if blog_id:
         return render_template('blog.html', title="Blog", blog_title=blog.title, body=blog.body)
+    if user_blogs:
+        return render_template('blog.html', title="Blog", blog_title=user_name.owner.email, user_blogs=user_blogs)
+    else:
+        return render_template('blog.html', title="Blog", blogs=blogs, blog_title='Build a Blog')
 
 
 if __name__ == "__main__":
