@@ -1,33 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="index">
-<h1>Index</h1>
-<p><a href="/login">Login</a> or <a href="/signup">Join</a> Blogz</p>
-<table class="table">
-  <tr>
-    <td>Title</td>
-    <td></td>
-    <td>Author</td>
-    <td></td>
-    <td>Date</td> 
-  </tr>
-  <tr>
-    <td><hr></td>
-    <td class="space"></td>
-    <td><hr></td>
-    <td class="space"></td>
-    <td><hr></td>
-  </tr>
-  {% for blog in blogs %}
-  <tr>
-    <td>{{ blog.title }}</td>
-    <td class="space"></td>
-    <td>{{ blog.owner.email }}</td>
-    <td class="space"></td>
-    <td>{{ blog.pub_date }}</td>
-  </tr>
-  {% endfor %}
-</table>
-</div>
+
+<h1>The Blogz</h1>
+
+
+<h4>Bloggers</h4>
+
+{% for user in users %}
+ <p><a href="/blog?user={{ user.id }}"> {{ user.email }} </a></p> 
+{% endfor %}
 
 {% endblock %}

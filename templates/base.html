@@ -17,13 +17,20 @@
     </form>
   </div>
   <div class="nav">
-    <a href="{{ url_for('index') }}">Index</a>
+    <a href="{{ url_for('index') }}">Home</a>
     |
     <a href="{{ url_for('blog') }}">Main Blog Page</a>
     |
     <a href="{{ url_for('newpost') }}">Add a Blog Entry</a>
   </div>
+  {% else %}
+  <div class="nav">
+    <a href="{{ url_for('index') }}">Home</a>
+    <h4><a href="/login">Login</a> or <a href="/signup">Join</a> Blogz</h4>
+  </div>
+  
   {% endif %}
+
 
   <div class="main">
     {% with messages = get_flashed_messages() %}
