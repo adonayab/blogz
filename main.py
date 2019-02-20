@@ -9,7 +9,7 @@ from datetime import datetime
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'signup', 'index']
+    allowed_routes = ['login', 'signup', 'index', 'blog']
     if request.endpoint not in allowed_routes and 'email' not in session and '/static/' not in request.path:
         return redirect('/login')
 
@@ -51,11 +51,11 @@ def signup():
         existing_user = User.query.filter_by(email=email).first()
 
         if email == '' and password == '' and verify == '':
-            flash('Email and Password fields can not be empty')
+            flash('Email and Password fields required')
             return render_template('signup.html', title='Blogz Signup')
-
-        if existing_user:
+        if existing_user or existing_user and password == '':
             flash('{} Already an account'.format(email))
+            flash('Password required')
             return render_template('signup.html', title='Blogz Signup')
         if email == '':
             flash('Email field required')
@@ -123,11 +123,11 @@ def blog():
     user_name = Blog.query.filter_by(owner_id=user_id).first()
 
     if blog_id:
-        return render_template('blog.html', title="Blog", blog_title=blog.title, body=blog.body)
+        return render_template('blog.html', title="Blog", blog=blog)
     if user_blogs:
         return render_template('blog.html', title="Blog", blog_title=user_name.owner.email, user_blogs=user_blogs)
     else:
-        return render_template('blog.html', title="Blogz", blogs=blogs, blog_title='Build a Blog')
+        return render_template('blog.html', title="Blogz", blogs=blogs, blog_title='Blogz')
 
 
 if __name__ == "__main__":

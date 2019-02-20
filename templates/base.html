@@ -16,21 +16,19 @@
       <span>{{ session['email'] }}</span>
     </form>
   </div>
+  {% endif %}
   <div class="nav">
     <a href="{{ url_for('index') }}">Home</a>
     |
     <a href="{{ url_for('blog') }}">Main Blog Page</a>
     |
     <a href="{{ url_for('newpost') }}">Add a Blog Entry</a>
+    {% if 'email' not in session %}
+    <div>
+      <h4><a href="/login">Login</a> | <a href="/signup">Signup</a></h4>
+    </div>
+    {% endif %}
   </div>
-  {% else %}
-  <div class="nav">
-    <a href="{{ url_for('index') }}">Home</a>
-    <h4><a href="/login">Login</a> or <a href="/signup">Join</a> Blogz</h4>
-  </div>
-  
-  {% endif %}
-
 
   <div class="main">
     {% with messages = get_flashed_messages() %}
