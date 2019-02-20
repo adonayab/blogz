@@ -1,5 +1,5 @@
 .main {  
-  padding: 2in;
+  padding: 3in;
   margin: auto auto;
   width: 540px;
   font: 20px "Courier New", monospace;
@@ -72,12 +72,17 @@ h6, h5 {
 }
 
 .error {
-  color: red;
+  color: rgb(209, 164, 164);
 }
 
 a {
   color: rgb(149, 199, 201);
   font-family: sans-serif;
+}
+
+.pag {
+  color: white;
+  font-weight: normal;
 }
 
 span {

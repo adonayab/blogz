@@ -109,7 +109,8 @@ def newpost():
 @app.route('/', methods=['POST', 'GET'])
 def index():
     users = User.query.all()
-    return render_template('index.html', users=users, title='Blogz Home')
+    blogs = Blog.query.paginate(per_page=5)
+    return render_template('index.html', users=users, blogs=blogs, title='Blogz Home')
 
 
 @app.route('/blog', methods=['POST', 'GET'])
@@ -117,7 +118,7 @@ def blog():
     blog_id = request.args.get('id')
     user_id = request.args.get('user')
 
-    blogs = Blog.query.all()
+    blogs = Blog.query.paginate(per_page=5)
     blog = Blog.query.filter_by(id=blog_id).first()
     user_blogs = Blog.query.filter_by(owner_id=user_id).all()
     user_name = Blog.query.filter_by(owner_id=user_id).first()
