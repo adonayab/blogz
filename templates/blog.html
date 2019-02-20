@@ -2,7 +2,8 @@
 
 {% block content %}
 
-
+<!-- Pagination -->
+{% if blogs %}
 {% for page_num in blogs.iter_pages() %}
   {% if page_num %}
     {% if blogs.page == page_num %}
@@ -14,7 +15,6 @@
     ...
   {% endif %}
 {% endfor %}
-
 
 <h1>{{ blog_title }}</h1>
 
@@ -28,6 +28,8 @@
   <h6></h6>
 </div>
 {% endfor %}
+
+<!-- Pagination -->
 {% for page_num in blogs.iter_pages() %}
   {% if page_num %}
     {% if blogs.page == page_num %}
@@ -40,6 +42,9 @@
   {% endif %}
 {% endfor %}
 
+{% endif %}
+
+
 
 <!-- Individual blog -->
 {% if blog %}
@@ -50,8 +55,12 @@
   </span> {{ blog.pub_date }}</h6>
 {% endif %}
 
+
+
 <!-- Displaying all blogs of a user -->
-{% for blog in user_blogs|reverse %}
+{% if user_blogs %}
+
+{% for blog in user_blogs %}
 <div class="blog">
   <h2><a href="/blog?id={{ blog.id }}">{{ blog.title }}</a></h2>
   <p>{{ blog.body }}</p>
@@ -61,6 +70,7 @@
 </div>
 {% endfor %}
 
+{% endif %}
 
 
 {% endblock %}

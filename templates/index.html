@@ -1,20 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-
-{% for page_num in blogs.iter_pages() %}
-  {% if page_num %}
-    {% if blogs.page == page_num %}
-      <a class='error' href="{{ url_for('blog', page=page_num) }}">{{ page_num }}</a>
-    {% else %}
-      <a class='pag' href="{{ url_for('blog', page=page_num) }}">{{ page_num }}</a>
-    {% endif %}
-  {% else %}
-    ...
-  {% endif %}
-{% endfor %}
-
-
 <h1>The Blogz</h1>
 
 
@@ -22,18 +8,6 @@
 
 {% for user in users %}
  <p><a href="/blog?user={{ user.id }}"> {{ user.email }} </a></p> 
-{% endfor %}
-
-{% for page_num in blogs.iter_pages() %}
-  {% if page_num %}
-    {% if blogs.page == page_num %}
-      <a class='error' href="{{ url_for('blog', page=page_num) }}">{{ page_num }}</a>
-    {% else %}
-      <a class='pag' href="{{ url_for('blog', page=page_num) }}">{{ page_num }}</a>
-    {% endif %}
-  {% else %}
-    ...
-  {% endif %}
 {% endfor %}
 
 
